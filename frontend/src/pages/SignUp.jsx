@@ -1,79 +1,104 @@
-import React, { useState } from 'react'
-import logo from "../images/logo.png"
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import logo from "../images/logo.png";
 import image from "../images/authPageSide.png";
-import { api_base_url } from '../helper';
+import { api_base_url } from "../helper";
 
 const SignUp = () => {
   const [username, setUsername] = useState("");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [pwd, setPwd] = useState("");
-
   const [error, setError] = useState("");
 
   const navigate = useNavigate();
 
   const submitForm = (e) => {
     e.preventDefault();
-    fetch(api_base_url + "/signUp",{
+    fetch(api_base_url + "/signUp", {
       mode: "cors",
       method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        username: username,
-        name: name,
-        email: email,
-        password: pwd
-      })
-    }).then((res)=>res.json()).then((data)=>{
-      if(data.success === true){
-        alert("Account created successfully");
-        navigate("/login"); 
-      }
-      else{
-        setError(data.message);
-      }
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ username, name, email, password: pwd }),
     })
-  }
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success) {
+          alert("Account created successfully");
+          navigate("/login");
+        } else {
+          setError(data.message);
+        }
+      });
+  };
 
   return (
-    <>
-      <div className="container w-screen min-h-screen flex items-center justify-between pl-[100px]">
-        <div className="left w-[35%]">
-          <img className='w-[200px]' src={logo} alt="" />
-          <form onSubmit={submitForm} className='w-full mt-[60px]' action="">
-            <div className="inputBox">
-              <input required onChange={(e)=>{setUsername(e.target.value)}} value={username} type="text" placeholder='Username'/>
-            </div>
+    <div className="min-h-screen flex items-center justify-center bg-gray-900 p-6">
+      <div className="flex w-[80%] max-w-4xl bg-gray-800 shadow-lg rounded-lg overflow-hidden">
+        
+        <div className="w-[50%] p-10 flex flex-col justify-center">
+          <img className="w-[200px]  mb-6" src={logo} alt="Logo" />
+          <h2 className="text-2xl font-semibold text-white text-center mb-4">Create an Account</h2>
 
-            <div className="inputBox">
-              <input required onChange={(e)=>{setName(e.target.value)}} value={name} type="text" placeholder='Name'/>
-            </div>
+          <form onSubmit={submitForm} className="space-y-4">
+            <input
+              required
+              className="w-full px-4 py-2 bg-gray-700 text-white border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              type="text"
+              placeholder="Username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+            />
 
-            <div className="inputBox">
-              <input required onChange={(e)=>{setEmail(e.target.value)}} value={email} type="email" placeholder='Email'/>
-            </div>
+            <input
+              required
+              className="w-full px-4 py-2 bg-gray-700 text-white border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              type="text"
+              placeholder="Full Name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
 
-            <div className="inputBox">
-              <input required onChange={(e)=>{setPwd(e.target.value)}} value={pwd} type="password" placeholder='Password'/>
-            </div>
+            <input
+              required
+              className="w-full px-4 py-2 bg-gray-700 text-white border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              type="email"
+              placeholder="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
 
-            <p className='text-[gray]'>Already have an account <Link to="/login" className='text-[#00AEEF]'>login</Link></p>
+            <input
+              required
+              className="w-full px-4 py-2 bg-gray-700 text-white border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              type="password"
+              placeholder="Password"
+              value={pwd}
+              onChange={(e) => setPwd(e.target.value)}
+            />
 
-            <p className='text-red-500 text-[14px] my-2'>{error}</p>
+            <p className="text-gray-400 text-sm">
+              Already have an account?{" "}
+              <Link to="/login" className="text-blue-400 hover:underline">
+                Login
+              </Link>
+            </p>
 
-            <button className="btnBlue w-full mt-[20px]">Sign Up</button>
+            {error && <p className="text-red-500 text-sm">{error}</p>}
+
+            <button className="w-full bg-gradient-to-r from-blue-500 to-blue-600 text-white py-2 rounded-md hover:shadow-lg transition-all">
+              Sign Up
+            </button>
           </form>
         </div>
-        <div className="right w-[55%]">
-          <img className='h-[100vh] w-[100%] object-cover' src={image} alt="" />
+
+        
+        <div className="w-[50%] hidden lg:flex items-center justify-center">
+          <img className="h-[90%] w-[95%]  rounded-r-lg" src={image} alt="Illustration" />
         </div>
       </div>
-    </>
-  )
-}
+    </div>
+  );
+};
 
-export default SignUp
+export default SignUp;

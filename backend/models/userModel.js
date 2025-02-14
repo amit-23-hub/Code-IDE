@@ -1,6 +1,4 @@
-let mongoose = require('mongoose');
-
-mongoose.connect('mongodb://127.0.0.1:27017/codeIDE');
+const mongoose = require('mongoose');
 
 let userSchema = new mongoose.Schema({
   name: String,
@@ -21,4 +19,4 @@ let userSchema = new mongoose.Schema({
   }
 });
 
-module.exports = mongoose.model('User', userSchema); // 'User' is the name of the collection
+module.exports = mongoose.model('User', userSchema);
