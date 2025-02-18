@@ -8,4 +8,9 @@ export default defineConfig({
       external: [],
     },
   },
+  server: {
+    proxy: {
+      '/signUp': 'https://synlab.vercel.app', // Backend ka URL
+    },
+  },
 });
