@@ -10,6 +10,11 @@ router.get('/', function (req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
+router.get("/test", (req, res) => {
+  res.json({ message: "API is working!" });
+});
+
+
 const secret = "secret"; // secret key for jwt
 
 router.post("/signUp", async (req, res) => {
